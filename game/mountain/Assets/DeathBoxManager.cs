@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CheckpointScript : MonoBehaviour
+public class DeathBoxManager : MonoBehaviour
 {
-    GameObject Player;
+    public GameObject Player;
     void Start()
     {
         Player = GameObject.Find("player");
@@ -15,10 +15,9 @@ public class CheckpointScript : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player")
         {
-            Player.GetComponent<PlayerManager>().SetCheckpoint(transform.position);
-            Debug.Log("Got Checkpoint!");
+            Player.GetComponent<PlayerManager>().Respawn();
         }
     }
 }
