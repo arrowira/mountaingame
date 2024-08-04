@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumps = 1;
     [SerializeField]
     private SpriteRenderer sr;
+    public float featherboost = 1;
 
     private Rigidbody2D rb;
     private bool isGrounded;
@@ -44,13 +45,14 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded)
         {
             jumps = 1;
+            featherboost = 1;
         }
 
         // Handle jumping
         if (jumps > 0 && Input.GetKeyDown(KeyCode.W))
         {
             
-            rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+            rb.AddForce(transform.up * jumpForce * featherboost, ForceMode2D.Impulse);
             Invoke("jumpmin", 0.2f);
             
         }
