@@ -9,7 +9,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundLayer;
     public Transform groundCheck;
     public float groundCheckRadius = 0.2f;
-
+    public float jumps = 1;
     [SerializeField]
     private SpriteRenderer sr;
 
@@ -21,7 +21,10 @@ public class PlayerMovement : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
     }
-
+    private void jumpmin()
+    {
+        jumps -= 1;
+    }
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.D))
@@ -38,11 +41,18 @@ public class PlayerMovement : MonoBehaviour
 
         // Check if player is grounded
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        if (isGrounded)
+        {
+            jumps = 1;
+        }
 
         // Handle jumping
-        if (isGrounded && Input.GetKeyDown(KeyCode.W))
+        if (jumps > 0 && Input.GetKeyDown(KeyCode.W))
         {
+            
             rb.AddForce(transform.up * jumpForce, ForceMode2D.Impulse);
+            Invoke("jumpmin", 0.2f);
+            
         }
     }
 
