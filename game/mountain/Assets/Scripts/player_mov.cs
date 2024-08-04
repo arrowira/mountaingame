@@ -10,6 +10,9 @@ public class PlayerMovement : MonoBehaviour
     public Transform groundCheck;
     public float groundCheckRadius = 0.2f;
 
+    [SerializeField]
+    private SpriteRenderer sr;
+
     private Rigidbody2D rb;
     private bool isGrounded;
     private float moveInput;
@@ -21,6 +24,14 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            sr.flipX = false;
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            sr.flipX = true;
+        }
         // Handle horizontal movement
         moveInput = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
