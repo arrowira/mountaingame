@@ -428,7 +428,7 @@ MonoBehaviour:
     m_Bits: 8
   groundCheck: {fileID: 305783551}
   wallCheck: {fileID: 1238868108}
-  pushoffset: 15
+  pushoffset: 5
   groundCheckRadius: 0.2
   jumps: 1
   sr: {fileID: 974832921}

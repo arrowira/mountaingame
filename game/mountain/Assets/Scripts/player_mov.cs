@@ -70,6 +70,7 @@ public class PlayerMovement : MonoBehaviour
         }
         // Handle horizontal movement
         moveInput = Input.GetAxis("Horizontal");
+        if (Mathf.Abs(rb.velocity.x) < Mathf.Abs(moveSpeed * moveInput))
         rb.AddForce(((moveSpeed * moveInput)-rb.velocity.x) * transform.right, ForceMode2D.Force);
         //rb.velocity = new Vector2((moveInput * moveSpeed) + pushoff, rb.velocity.y);
        
