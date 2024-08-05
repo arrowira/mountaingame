@@ -5,7 +5,11 @@ using static UnityEngine.GraphicsBuffer;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f;
+    private float moveSpeed = 5f;
+    [SerializeField]
+    private float onGroundMoveSpeed = 5f;
+    [SerializeField]
+    private float offGroundMoveSpeed = 3f;
     public float jumpForce = 10f;
     public LayerMask groundLayer;
     public Transform groundCheck;
@@ -44,6 +48,14 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
+        if (isGrounded)
+        {
+            moveSpeed = onGroundMoveSpeed;
+        }
+        else
+        {
+            moveSpeed = offGroundMoveSpeed;
+        }
         if (Input.GetKeyDown(KeyCode.D))
         {
             //0.68
