@@ -10,7 +10,8 @@ public class PlayerMovement : MonoBehaviour
     public Transform groundCheck;
     [SerializeField]
     private Transform wallCheck;
-   
+    [SerializeField]
+    private float pushoff = 10f;
     public float groundCheckRadius = 0.2f;
     public float jumps = 1;
     [SerializeField]
@@ -52,6 +53,10 @@ public class PlayerMovement : MonoBehaviour
             jumps = 1;
             featherboost = 1;
         }
+        if (canWalljump)
+        {
+            featherboost = 1;
+        }
 
         // Handle jumping
         if (jumps > 0 && Input.GetKeyDown(KeyCode.W))
@@ -64,7 +69,14 @@ public class PlayerMovement : MonoBehaviour
         else if (!isGrounded && canWalljump && Input.GetKeyDown(KeyCode.W)) 
         {
             rb.AddForce(transform.up * jumpForce * featherboost, ForceMode2D.Impulse);
-            
+            if(sr.flipX == false)
+            {
+                rb.AddForce(-transform.right * pushoff, ForceMode2D.Impulse);
+            }
+            else
+            {
+                rb.AddForce(transform.right * pushoff, ForceMode2D.Impulse);
+            }
         }
     }
 
