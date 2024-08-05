@@ -7,14 +7,19 @@ public class feather : MonoBehaviour
     public PlayerMovement player_mov;
     [SerializeField]
     private bool special = false;
+
+    private SpriteRenderer sr;
     [SerializeField]
     private float specialboost = 3.0f;
     // Start is called before the first frame update
     void Start()
     {
-        
+        sr = gameObject.GetComponent<SpriteRenderer>();
     }
+    private void respawn()
+    {
 
+    }
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Player"){
@@ -24,7 +29,8 @@ public class feather : MonoBehaviour
                 player_mov.featherboost = specialboost;
             }
             player_mov.jumps += 1;
-            Destroy(gameObject);
+            sr.enabled = false;
+            Invoke("respawn", 3);
         }
     }
 
