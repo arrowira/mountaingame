@@ -68,14 +68,14 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (!isGrounded && canWalljump && Input.GetKeyDown(KeyCode.W)) 
         {
-            rb.AddForce(transform.up * jumpForce * featherboost, ForceMode2D.Impulse);
+           // rb.AddForce(transform.up * jumpForce * featherboost, ForceMode2D.Impulse);
             if(sr.flipX == false)
             {
-                rb.AddForce(-transform.right * pushoff, ForceMode2D.Impulse);
+                rb.AddForce(-transform.right * pushoff);
             }
             else
             {
-                rb.AddForce(transform.right * pushoff, ForceMode2D.Impulse);
+                rb.AddForce(transform.right * pushoff);
             }
         }
     }
