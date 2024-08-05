@@ -11,6 +11,8 @@ public class feather : MonoBehaviour
     private SpriteRenderer sr;
     [SerializeField]
     private float specialboost = 3.0f;
+    [SerializeField]
+    private bool pickupable = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -18,11 +20,12 @@ public class feather : MonoBehaviour
     }
     private void respawn()
     {
-
+        pickupable = true;
+        sr.enabled = true;
     }
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.tag == "Player"){
+        if (col.gameObject.tag == "Player" && pickupable){
             player_mov = col.gameObject.GetComponent<PlayerMovement>();
             if (special)
             {
@@ -30,6 +33,7 @@ public class feather : MonoBehaviour
             }
             player_mov.jumps += 1;
             sr.enabled = false;
+            pickupable = false;
             Invoke("respawn", 3);
         }
     }
