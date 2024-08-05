@@ -5,6 +5,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private bool moveEnable = true;
     private float moveSpeed = 5f;
     [SerializeField]
     private float onGroundMoveSpeed = 5f;
@@ -39,6 +40,10 @@ public class PlayerMovement : MonoBehaviour
     {
         jumps -= 1;
     }
+    private void enablemovement()
+    {
+        moveEnable = true;
+    }
     private void FixedUpdate()
     {
         if (pushoff != 0)
@@ -70,7 +75,11 @@ public class PlayerMovement : MonoBehaviour
         }
         // Handle horizontal movement
         moveInput = Input.GetAxis("Horizontal");
-        rb.AddForce(((moveSpeed * moveInput) - rb.velocity.x) * transform.right, ForceMode2D.Force);
+        if (moveEnable)
+        {
+            rb.AddForce(((moveSpeed * moveInput) - rb.velocity.x) * transform.right, ForceMode2D.Force);
+        }
+        
 
         //rb.velocity = new Vector2((moveInput * moveSpeed) + pushoff, rb.velocity.y);
 
@@ -107,8 +116,9 @@ public class PlayerMovement : MonoBehaviour
             {
                 rb.AddForce(transform.right * pushoffset, ForceMode2D.Impulse);
             }
-            
-            
+
+            moveEnable = false;
+            Invoke("enablemovement",1f);
         }
     }
 
