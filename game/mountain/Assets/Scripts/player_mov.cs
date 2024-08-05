@@ -8,6 +8,9 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 10f;
     public LayerMask groundLayer;
     public Transform groundCheck;
+    [SerializeField]
+    private Transform wallCheck;
+   
     public float groundCheckRadius = 0.2f;
     public float jumps = 1;
     [SerializeField]
@@ -17,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private bool isGrounded;
     private float moveInput;
+    private bool canWalljump;
 
     void Start()
     {
@@ -42,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
 
         // Check if player is grounded
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        canWalljump = Physics2D.OverlapCircle(wallCheck.position, 0.2f, groundLayer);
         if (isGrounded)
         {
             jumps = 1;
@@ -51,9 +56,14 @@ public class PlayerMovement : MonoBehaviour
         // Handle jumping
         if (jumps > 0 && Input.GetKeyDown(KeyCode.W))
         {
-            
+
             rb.AddForce(transform.up * jumpForce * featherboost, ForceMode2D.Impulse);
             Invoke("jumpmin", 0.2f);
+
+        }
+        else if (!isGrounded && canWalljump && Input.GetKeyDown(KeyCode.W)) 
+        {
+            rb.AddForce(transform.up * jumpForce * featherboost, ForceMode2D.Impulse);
             
         }
     }
