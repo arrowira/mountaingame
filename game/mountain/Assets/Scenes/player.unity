@@ -1056,7 +1056,6 @@ MonoBehaviour:
   sr: {fileID: 974832921}
   featherboost: 1
   rb: {fileID: 884532990}
-  PlayerRigid: {fileID: 0}
 --- !u!61 &884532988
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1352,7 +1351,7 @@ GameObject:
   - component: {fileID: 1087043462}
   m_Layer: 0
   m_Name: Zipline
-  m_TagString: Untagged
+  m_TagString: Zipline
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1386,7 +1385,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0.009631157, y: -0.54121196}
@@ -1463,7 +1462,7 @@ Transform:
   m_GameObject: {fileID: 1087043461}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -20.78, y: 1.69, z: 0}
+  m_LocalPosition: {x: -19.62, y: 1.33, z: 0}
   m_LocalScale: {x: 13.112, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
