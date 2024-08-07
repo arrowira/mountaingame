@@ -5,8 +5,8 @@ using static UnityEngine.GraphicsBuffer;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private bool moveEnable = true;
-    private float moveSpeed = 5f;
+    public bool moveEnable = true;
+    public float moveSpeed = 5f;
     [SerializeField]
     private float onGroundMoveSpeed = 5f;
     [SerializeField]
@@ -42,6 +42,10 @@ public class PlayerMovement : MonoBehaviour
     {
         moveEnable = true;
     }
+    public void resetVel()
+    {
+        rb.velocity= Vector3.zero;
+    }
     private void FixedUpdate()
     {
         if (pushoff != 0)
@@ -51,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
-        Physics2D.gravity = new Vector2(0, -20f);
+        //Physics2D.gravity = new Vector2(0, -20f);
         if (isGrounded)
         {
             moveSpeed = onGroundMoveSpeed;

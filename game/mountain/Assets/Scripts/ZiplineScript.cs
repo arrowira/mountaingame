@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ZiplineScript : MonoBehaviour
 {
-    bool NearZipline, OnZipline;
+    public bool NearZipline, OnZipline;
+    public GameObject mrZipline;
     void Start()
     {
         NearZipline = false;
@@ -21,6 +22,7 @@ public class ZiplineScript : MonoBehaviour
     {
         if (Object.tag == "Zipline")
         {
+            mrZipline = Object.gameObject;
             NearZipline = true;
         }
     }
