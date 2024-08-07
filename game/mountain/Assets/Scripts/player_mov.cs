@@ -53,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void Update()
     {
+        Physics2D.gravity = new Vector2(0, -20f);
         if (isGrounded)
         {
             moveSpeed = onGroundMoveSpeed;
