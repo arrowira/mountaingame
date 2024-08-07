@@ -29,12 +29,17 @@ public class PlayerMovement : MonoBehaviour
     private bool isGrounded;
     private float moveInput;
     private bool canWalljump;
+
+    bool OnZipline;
+    int ZipTime;
+    float DefGravity;
     
 
     void Start()
     {
         //rb = GetComponent<Rigidbody2D>();
-        
+        OnZipline = false;
+        DefGravity = rb.gravityScale;
     }
     private void jumpmin()
     {
@@ -50,6 +55,7 @@ public class PlayerMovement : MonoBehaviour
         {
             pushoff += 1;
         }
+        ZipTime++;
     }
     void Update()
     {
@@ -62,13 +68,13 @@ public class PlayerMovement : MonoBehaviour
         {
             moveSpeed = offGroundMoveSpeed;
         }
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D) && OnZipline == false)
         {
             //0.68
             wallCheck.localPosition = new Vector3(0.68f, 0, 0);
             sr.flipX = false;
         }
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) && OnZipline == false)
         {
             //-0.75
             wallCheck.localPosition = new Vector3(-0.75f, 0, 0);
@@ -76,7 +82,7 @@ public class PlayerMovement : MonoBehaviour
         }
         // Handle horizontal movement
         moveInput = Input.GetAxis("Horizontal");
-        if (moveEnable)
+        if (moveEnable == true && OnZipline == false)
         {
             rb.AddForce(((moveSpeed * moveInput) - rb.velocity.x) * transform.right, ForceMode2D.Force);
         }
@@ -96,32 +102,50 @@ public class PlayerMovement : MonoBehaviour
         {
             featherboost = 1;
         }
-        
-        // Handle jumping
-        if (jumps > 0 && Input.GetKeyDown(KeyCode.W))
-        {
-            rb.velocity = new Vector2(rb.velocity.x, 0);
-            rb.AddForce(transform.up * jumpForce * featherboost, ForceMode2D.Impulse);
-            Invoke("jumpmin", 0.2f);
 
+        if (OnZipline == false)
+        {
+            // Handle jumping
+            if (jumps > 0 && Input.GetKeyDown(KeyCode.W))
+            {
+                rb.velocity = new Vector2(rb.velocity.x, 0);
+                rb.AddForce(transform.up * jumpForce * featherboost, ForceMode2D.Impulse);
+                Invoke("jumpmin", 0.2f);
+
+            }
+            else if (!isGrounded && canWalljump && Input.GetKeyDown(KeyCode.W))
+            {
+                rb.velocity = new Vector2(rb.velocity.x, 0);
+                rb.AddForce(transform.up * jumpForce * featherboost, ForceMode2D.Impulse);
+                if (sr.flipX == false)
+                {
+                    rb.AddForce(-transform.right * pushoffset, ForceMode2D.Impulse);
+                }
+                else
+                {
+                    rb.AddForce(transform.right * pushoffset, ForceMode2D.Impulse);
+                }
+
+                moveEnable = false;
+                Invoke("enablemovement", 1f);
+            }
         }
-        else if (!isGrounded && canWalljump && Input.GetKeyDown(KeyCode.W)) 
+        if(OnZipline == true && Input.GetKeyDown(KeyCode.E) && ZipTime == 60)
         {
-            rb.velocity = new Vector2(rb.velocity.x, 0);
-            rb.AddForce(transform.up * jumpForce * featherboost, ForceMode2D.Impulse);
-            if (sr.flipX == false)
-            {
-                rb.AddForce(-transform.right * pushoffset, ForceMode2D.Impulse);
-            }
-            else
-            {
-                rb.AddForce(transform.right * pushoffset, ForceMode2D.Impulse);
-            }
-
-            moveEnable = false;
-            Invoke("enablemovement",1f);
+            OnZipline = false;
+            rb.gravityScale = DefGravity;
+        }
+    }
+    public void OnTriggerStay2D(Collider2D Object)
+    {
+        if (Object.tag == "Zipline" && Input.GetKeyDown(KeyCode.E))
+        {
+            ZipTime = 0;
+            OnZipline = true;
+            rb.gravityScale = 0;
+            rb.velocity = new Vector2(0, 0);
+            Debug.Log("OnZip");
         }
     }
 
-  
 }
